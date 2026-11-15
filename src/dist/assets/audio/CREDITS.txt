@@ -1,0 +1,9 @@
+背景音乐：Covert Action
+作者：congusbongus
+原作者发布页：https://opengameart.org/content/covert-action
+原始录音：https://opengameart.org/sites/default/files/covert_action_0.ogg
+许可：CC0 1.0 Universal
+许可全文：https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+随游戏分发的 covert-action.ogg 为作者原文件，未重新编曲或转码。
+游戏仅控制播放位置、音量、淡入淡出及与交互音效的混音。

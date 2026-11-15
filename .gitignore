@@ -1,0 +1,21 @@
+node_modules/
+.DS_Store
+*.log
+.env*
+!.env.example
+.tmp/
+.docs/
+.playwright-cli/
+outputs/
+output/
+artifacts/
+.openai/
+.doc/
+src/data/
+
+# 本地开发资料与离线演示
+[Aa][Gg][Ee][Nn][Tt].md
+[Aa][Gg][Ee][Nn][Tt][Ss].md
+research/
+谎言公司 Demo.html
+src/scripts/build-standalone.mjs

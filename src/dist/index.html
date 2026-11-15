@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#080909"><meta name="description" content="谎言公司靠传闻统治世界。化身侦探，寻找证据，夺回世界。"><title>谎言公司</title><link rel="icon" href="./assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./pitch.css"><link rel="stylesheet" href="./tutorial.css"></head>
+<body>
+<div class="game-shell">
+  <header class="topbar">
+    <div class="logo"><span aria-hidden="true">谎</span><b>谎言公司</b></div>
+    <div class="case-line"><span>本局传闻</span><h1 id="case-claim">从月球上，能用肉眼看见长城。</h1></div>
+    <nav class="header-tools" aria-label="游戏菜单"><button class="sound-entry" data-open-sound aria-haspopup="dialog" aria-controls="sound-dialog"><span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>声音</button><button id="report-button" hidden>结案战报</button><button id="leaderboard-button">侦探排行</button><button id="archive-button">证据档案</button><button data-open-pitch>游戏介绍</button><button id="help-button" aria-haspopup="dialog" aria-controls="tutorial-dialog">怎么玩</button><button id="restart-button">重开</button></nav>
+  </header>
+  <main>
+    <section class="map-panel" aria-label="世界战局">
+      <div class="match-hud">
+        <div class="audience-stats"><div class="truth-heading"><span id="support-heading">相信真相</span><strong id="truth-value">0.0<small>%</small></strong></div><div class="reach-heading"><span id="reach-heading">听过真相</span><strong id="reach-value">0<small>%</small></strong></div><div class="victory-target" id="victory-target"><span>支持率达到 <b>99%</b> 即可获胜</span></div></div>
+        <div class="truth-track" aria-label="全球舆论"><i id="reach-bar"></i><i id="truth-bar"></i><span class="goal-mark"></span></div>
+        <div class="hud-bottom"><div class="map-legend"><span><i class="red"></i><span id="red-legend">相信谎言</span></span><span><i class="gold"></i>观望中</span><span><i class="blue"></i><span id="blue-legend">相信真相</span></span></div><span class="map-caption" id="map-caption"></span></div>
+      </div>
+      <div class="world-stage">
+        <div id="transport-status" class="transport-status"><div><strong id="transport-title"></strong><span id="transport-detail"></span></div><div class="transport-track"><i id="transport-progress"></i></div></div>
+
+        <div class="map-wrap" id="map-wrap">
+          <svg id="world-map" viewBox="0 0 1000 500" role="img" aria-label="全球真相传播地图"><g id="land-layer"></g><g id="route-layer"></g><g id="media-route-layer"></g><g id="region-layer"></g></svg>
+          <div id="map-effects" aria-hidden="true"></div><div id="coin-layer" aria-label="点击领取流量金币"></div><div class="burst" id="burst" hidden></div>
+        </div>
+        <section class="field-feed" id="field-feed" aria-label="调查现场" hidden>
+          <div class="field-resize" id="field-resize" role="separator" tabindex="0" aria-label="调整调查现场高度" aria-orientation="horizontal" aria-controls="field-history" aria-valuemin="240" aria-valuemax="600" aria-valuenow="440" title="上下拖动调整高度，也可使用上下方向键"><i aria-hidden="true"></i></div>
+          <header class="field-feed-heading"><h2><i aria-hidden="true"></i>调查现场</h2><span id="field-feed-state">等待出发</span><button class="field-toggle" id="field-toggle" aria-expanded="true" aria-controls="field-history" aria-label="收起调查历程"><span id="field-toggle-label">收起</span><svg viewBox="0 0 14 12" aria-hidden="true"><path d="m3 4 4 4 4-4"/></svg></button></header>
+          <div class="field-current" id="field-current"><span class="field-pin">当前情况 <span aria-hidden="true">⌖</span></span>
+            <section class="journey" id="journey" aria-label="当前行动"><span class="journey-pointer" aria-hidden="true">➜</span><div class="journey-copy"><span id="journey-step" class="sr-only"></span><h2 id="journey-title">准备开始</h2><p id="journey-body"></p></div><strong id="journey-metric" hidden></strong><div class="journey-actions"><button id="journey-primary" class="primary" hidden></button><button id="journey-secondary" class="text-button" hidden>自由行动</button></div></section>
+            <div class="opponent" id="opponent" hidden></div>
+          </div>
+          <div class="field-history" id="field-history" role="log" aria-live="off" aria-label="本局历程，向上滚动回看" tabindex="0"><div id="field-messages"></div></div>
+          <button class="field-jump" id="field-jump" hidden>回到最新 ↓</button>
+        </section>
+        <div class="map-bottom"><div id="channel-legend" class="channel-legend" aria-label="媒体交通图例"></div></div>
+      </div>
+
+      <div id="battle-message" class="sr-only" role="status" aria-live="polite"></div>
+    </section>
+    <aside aria-label="行动面板">
+      <div class="time-controls"><time class="match-clock" id="world-clock" datetime="2077-04-01T00:00:00.000Z" aria-label="2077年4月1日 00时"><span id="clock-date">2077 年 4 月 1 日</span><b id="clock">00时</b></time><div class="time-tools"><span class="time-speed-label">时间流速</span><button id="pause-button" aria-label="暂停" disabled>Ⅱ</button><div class="speeds" aria-label="游戏速度"><button data-speed="1">1×</button><button data-speed="2" class="active">2×</button><button data-speed="4">4×</button></div></div></div>
+      <div class="action-heading sr-only"><h2 id="phase-title">铺开真相</h2></div>
+      <div class="wallet" id="wallet"><div class="wallet-balances"><div class="wallet-resource" id="points-wallet"><div><span>行动点</span><strong id="points-value">24</strong></div><span id="income-note">升级与反击</span></div><div class="wallet-resource coin-wallet" id="coin-wallet"><div><span>金币</span><strong id="coins-value">0</strong></div><span id="coin-note">点击地图金币收取</span></div></div></div>
+      <div id="upgrades"></div>
+      <section class="research-control"><button class="search-button" id="search-button"><span class="action-icon search-icon" aria-hidden="true"></span><span class="search-copy"><strong id="search-label">寻找证据</strong><span id="search-count">五轮调查，沿线深挖</span></span><b aria-hidden="true">↗</b></button><div id="research-job" hidden></div></section>
+      <section class="publish-box" id="publish-box"><div id="publish-preview"></div><button class="publish-button" id="publish-button" disabled><span id="publish-label">公布实锤</span><span id="publish-cost">↗</span></button><p id="publish-warning">每份实锤，引来更强一波反扑。</p></section>
+
+    </aside>
+  </main>
+  <footer class="site-footer"><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">鄂ICP备2026056260号-2</a></footer>
+</div>
+<dialog id="intro-dialog" class="intro">
+  <div class="intro-story"><div class="intro-story-top"><span class="kicker">谎言公司</span><button data-open-pitch>游戏介绍 ↗</button></div><h2>谎言公司靠传闻统治世界。<br><em>侦探，该你出场了！</em></h2><p>循着线索找证据，把世界夺回来。</p><div class="intro-case"><label for="claim-input">天呐，他们居然相信：</label><textarea id="claim-input" rows="3" maxlength="160" required aria-describedby="claim-error" placeholder="输入一句传闻，或从下方选一个" autofocus></textarea><div class="claim-preset-row" id="claim-preset-row"><button id="claim-presets-prev" aria-label="查看前面的传闻" type="button">‹</button><div id="claim-presets" class="claim-presets" aria-label="选一句传闻"></div><button id="claim-presets-next" aria-label="查看更多传闻" type="button">›</button></div><p id="claim-error" class="research-error" role="alert" hidden></p></div></div>
+  <div class="intro-setup"><div class="intro-setup-heading"><h3>从哪里开始调查？</h3><button class="sound-entry" data-open-sound aria-haspopup="dialog" aria-controls="sound-dialog"><span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>声音</button></div><div id="start-regions" aria-label="选择起点"></div><p id="start-summary">从欧洲开始</p><button class="primary" id="start-button">出发，拯救世界 <span>→</span></button></div>
+  <footer class="site-footer"><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">鄂ICP备2026056260号-2</a></footer>
+</dialog>
+<dialog id="cinematic-dialog" class="cinematic" aria-label="开场漫画" aria-describedby="cinematic-caption">
+  <div class="cinematic-shell">
+    <div class="cinematic-top"><span>谎言公司</span><button id="cinematic-skip" type="button">跳过开场 ↗</button></div>
+    <div class="cinematic-stage" id="cinematic-stage" data-page="0">
+      <div class="cinematic-shot" data-shot="0"><img src="./assets/intro-world.webp" alt="巨大的公司广播塔笼罩城市，传闻如暗红浓雾扩散。" draggable="false"></div>
+      <div class="cinematic-shot" data-shot="1" hidden><img src="./assets/intro-rumor.webp" alt="人群聚集在广播荧幕前，整座城市被同一句传闻包围。" draggable="false"></div>
+      <div class="cinematic-shot" data-shot="2" hidden><img src="./assets/intro-detective.webp" alt="风衣侦探迎着绿色曙光，向谎言公司的高塔出发。" draggable="false"></div>
+      <div id="cinematic-caption" class="cinematic-caption" aria-live="polite" aria-atomic="true"></div>
+    </div>
+    <div class="cinematic-controls">
+      <div class="cinematic-pages" aria-label="漫画页码"><button type="button" data-cinematic-page="0" aria-label="第 1 页：谎言的世界"><span>01</span><i></i></button><button type="button" data-cinematic-page="1" aria-label="第 2 页：本局传闻"><span>02</span><i></i></button><button type="button" data-cinematic-page="2" aria-label="第 3 页：侦探出发"><span>03</span><i></i></button></div>
+      <button id="cinematic-play" class="cinematic-play" type="button">暂停播放</button>
+      <button id="cinematic-next" class="primary" type="button" autofocus>下一页 <span>→</span></button>
+    </div>
+  </div>
+</dialog>
+<dialog id="pause-dialog" class="pause-dialog" aria-labelledby="pause-title"><div class="pause-heading"><span class="pause-symbol" aria-hidden="true">Ⅱ</span><time id="pause-time">2077.04.01 · 00时</time><button class="sound-entry" data-open-sound aria-haspopup="dialog" aria-controls="sound-dialog"><span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>声音</button></div><h2 id="pause-title">战局已暂停</h2><p id="pause-claim"></p><div class="pause-stats"><div><span id="pause-support-label">支持核查</span><strong id="pause-support">0%</strong></div><div><span>内容触达</span><strong id="pause-reach">0%</strong></div><div><span>行动点</span><strong id="pause-points">0</strong></div><div><span>金币</span><strong id="pause-coins">0</strong></div></div><button class="primary" id="pause-resume" autofocus>继续行动 <span>▶</span></button></dialog>
+<dialog id="detail-dialog" class="detail"><div class="dialog-top"><span class="dialog-status">Ⅱ 战局已暂停</span><button id="detail-close" class="close" aria-label="关闭">×</button></div><div id="detail-content"></div></dialog>
+<dialog id="publication-dialog" class="publication-cg" aria-labelledby="publication-title" aria-describedby="publication-gain publication-effect">
+  <div class="publication-stage">
+    <article class="stamp-report">
+      <div class="stamp-report-meta"><span>调查报告</span><span id="publication-number">证据 01</span></div>
+      <h2 id="publication-title"></h2><time id="publication-date"></time>
+      <div class="report-blocks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="stamp-imprint" aria-hidden="true"><b>实锤</b></div>
+      <span class="report-page-number" aria-hidden="true">01 / 01</span>
+    </article>
+    <div class="stamp-tool" aria-hidden="true"><i></i><b></b></div>
+    <div class="stamp-particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+  <div class="publication-receipt"><span>实锤已公布</span><strong id="publication-gain"></strong><p id="publication-effect"></p></div>
+</dialog>
+<dialog id="sound-dialog" class="sound-dialog" aria-labelledby="sound-title">
+  <div class="sound-heading"><h2 id="sound-title">声音</h2><button id="sound-close" class="close" aria-label="关闭声音设置">×</button></div>
+  <div class="sound-channel"><div><label for="sound-music">背景音乐</label><output id="sound-music-value" for="sound-music">48%</output></div><input type="range" id="sound-music" min="0" max="100" step="1" value="48"></div>
+  <div class="sound-channel"><div><label for="sound-sfx">交互音效</label><output id="sound-sfx-value" for="sound-sfx">70%</output></div><input type="range" id="sound-sfx" min="0" max="100" step="1" value="70"></div>
+  <button class="sound-mute" id="sound-mute" aria-pressed="false"><span class="sound-switch" aria-hidden="true"><i></i></span><span id="sound-mute-label">全部静音</span></button>
+</dialog>
+<dialog id="leaderboard-dialog" class="leaderboard-dialog" aria-labelledby="leaderboard-title">
+  <header class="leaderboard-heading"><div><span>谎言公司 ／ 结案档案</span><h2 id="leaderboard-title">侦探排行</h2></div><button id="leaderboard-close" class="close" aria-label="关闭侦探排行">×</button></header>
+  <section id="leaderboard-own" class="leaderboard-own" hidden><div class="leaderboard-place"><span id="leaderboard-own-label">本次名次</span><strong id="leaderboard-rank">—</strong></div><form id="leaderboard-name-form"><label for="detective-name">侦探名称</label><div><input id="detective-name" required maxlength="20" autocomplete="nickname"><button id="leaderboard-save-name" class="secondary" type="submit">保存名字</button></div></form><div class="leaderboard-own-time"><span>消耗时间</span><strong id="leaderboard-time">—</strong></div></section>
+  <div class="leaderboard-meta"><span>TOP 100</span><span id="leaderboard-total">消耗时间 ↑</span></div>
+  <div id="leaderboard-status" class="leaderboard-status" role="status"></div><button id="leaderboard-retry" class="secondary" hidden>重新加载</button>
+  <div class="leaderboard-scroll"><table class="leaderboard-table"><colgroup><col class="rank-col"><col class="name-col"><col><col class="time-col"><col class="report-col"></colgroup><thead><tr><th scope="col">排行</th><th scope="col">侦探名称</th><th scope="col">调查的观点</th><th scope="col" aria-sort="ascending">消耗时间 ↑</th><th scope="col">调查报告</th></tr></thead><tbody id="leaderboard-rows"></tbody></table></div>
+  <section id="leaderboard-outside" class="leaderboard-outside" hidden></section>
+</dialog>
+<dialog id="ending-dialog" class="cinematic ending-cinematic" aria-labelledby="ending-title">
+  <div class="cinematic-shell">
+    <div class="cinematic-top"><span>谎言公司 ／ 尾声</span><button id="ending-skip">查看战报 ↗</button></div>
+    <div id="ending-stage" class="cinematic-stage"><div class="ending-shot"><img id="ending-image" alt=""></div><div id="ending-caption" class="cinematic-caption" aria-live="polite"></div></div>
+    <div class="cinematic-controls"><span id="ending-page" class="ending-page">01 / 02</span><button id="ending-play" class="cinematic-play">暂停播放</button><button id="ending-next" class="primary">继续 <span>→</span></button></div>
+  </div>
+</dialog>
+<dialog id="result-dialog" class="result"><div id="result-content"></div></dialog>
+<script src="./vendor/html-to-image.js"></script>
+<script type="module" src="./app.js"></script>
+</body></html>

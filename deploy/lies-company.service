@@ -1,0 +1,25 @@
+[Unit]
+Description=谎言公司游戏
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=lies-company
+Group=lies-company
+WorkingDirectory=/opt/lies-company/src
+EnvironmentFile=/etc/lies-company.env
+ExecStart=/opt/lies-company-runtime/node server/main.mjs
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/opt/lies-company/src/data
+MemoryMax=384M
+
+[Install]
+WantedBy=multi-user.target

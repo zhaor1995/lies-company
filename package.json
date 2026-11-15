@@ -1,0 +1,9 @@
+{
+  "name": "lies-company",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix src run dev",
+    "start": "npm --prefix src start",
+    "test": "npm --prefix src test"
+  }
+}
