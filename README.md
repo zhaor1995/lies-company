@@ -2,7 +2,7 @@
 
 一款用真实证据来推进的全球舆论策略游戏。像素风，约 10 分钟一局。
 
-[在线开一局](https://lies-company.zray.cc/) · [看看游戏介绍](https://lies-company.zray.cc/#intro)
+[看看游戏介绍](https://lies-company.zray.cc/#intro)
 
 ![谎言公司游戏介绍：让真相，传播到全世界。](docs/introduction.webp)
 
